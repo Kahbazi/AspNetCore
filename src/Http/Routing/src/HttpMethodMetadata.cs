@@ -41,7 +41,7 @@ namespace Microsoft.AspNetCore.Routing
                 throw new ArgumentNullException(nameof(httpMethods));
             }
 
-            HttpMethods = httpMethods.ToArray();
+            HttpMethods = httpMethods.Select(GetHttpMethodInstance).ToArray();
             AcceptCorsPreflight = acceptCorsPreflight;
         }
 
@@ -56,6 +56,56 @@ namespace Microsoft.AspNetCore.Routing
         /// </summary>
         public IReadOnlyList<string> HttpMethods { get; }
 
+        private static string GetHttpMethodInstance(string httpMethod)
+        {
+            if (AspNetCore.Http.HttpMethods.IsConnect(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Connect;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsDelete(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Delete;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsGet(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Get;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsHead(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Head;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsOptions(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Options;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsPatch(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Patch;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsPost(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Post;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsPut(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Put;
+            }
+
+            if (AspNetCore.Http.HttpMethods.IsTrace(httpMethod))
+            {
+                return AspNetCore.Http.HttpMethods.Trace;
+            }
+
+            return httpMethod;
+        }
+        
         private string DebuggerToString()
         {
             return $"HttpMethods: {string.Join(",", HttpMethods)} - Cors: {AcceptCorsPreflight}";
