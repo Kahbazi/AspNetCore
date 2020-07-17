@@ -111,7 +111,7 @@ namespace Microsoft.AspNetCore.Http
         }
 
         /// <summary>
-        /// This calls StartAsync if it has not previoulsy been called.
+        /// This calls StartAsync if it has not previously been called.
         /// It will complete the adapted pipe if it exists.
         /// </summary>
         /// <returns></returns>
@@ -127,6 +127,8 @@ namespace Microsoft.AspNetCore.Http
             {
                 return;
             }
+
+            await StartAsync();
 
             _completed = true;
 
