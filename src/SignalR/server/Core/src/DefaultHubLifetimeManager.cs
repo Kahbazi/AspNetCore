@@ -114,6 +114,9 @@ namespace Microsoft.AspNetCore.SignalR
 
                     tasks.Add(task.AsTask());
                 }
+                // If it's a IValueTaskSource backed ValueTask,
+                // inform it its result has been read so it can reset
+                task.GetAwaiter().GetResult();
             }
 
             if (tasks == null)
@@ -153,6 +156,9 @@ namespace Microsoft.AspNetCore.SignalR
 
                     tasks.Add(task.AsTask());
                 }
+                // If it's a IValueTaskSource backed ValueTask,
+                // inform it its result has been read so it can reset
+                task.GetAwaiter().GetResult();
             }
         }
 
